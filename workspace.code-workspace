@@ -1,0 +1,12 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "java.configuration.updateBuildConfiguration": "automatic",
+        "telemetry.enableCrashReporter": false,
+        "telemetry.enableTelemetry": false
+    }
+}
