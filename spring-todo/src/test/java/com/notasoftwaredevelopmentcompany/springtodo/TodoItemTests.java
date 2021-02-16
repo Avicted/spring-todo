@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 
-@SpringBootTest
+@SpringBootTest(properties = "spring.profiles.active=test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TodoItemTests {
     @Autowired

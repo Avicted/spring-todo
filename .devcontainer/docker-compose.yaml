@@ -3,9 +3,7 @@ services:
     # Update this to the name of the service you want to work with in your docker-compose.yml file
     spring-todo:
         container_name: "spring-todo"
-
         user: vscode
-
         build:
             context: ..
             dockerfile: .devcontainer/Dockerfile
@@ -18,9 +16,12 @@ services:
 
         environment:
             - POSTGRES_DB=${POSTGRES_DB}
+            - POSTGRES_TEST_DB=${POSTGRES_TEST_DB}
             - POSTGRES_USER=${POSTGRES_USER}
             - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
             - POSTGRES_HOST=${POSTGRES_HOST}
+            - POSTGRES_PORT=${POSTGRES_PORT}
+            - POSTGRES_TEST_PORT=${POSTGRES_TEST_PORT}
 
         volumes:
             # Update this to wherever you want VS Code to mount the folder of your project
@@ -36,15 +37,31 @@ services:
         image: postgres:13.1
         restart: unless-stopped
         environment:
-            - POSTGRES_USER=${postgres_user}
-            - POSTGRES_PASSWORD=${postgres_password}
-            - POSTGRES_DB=${postgres_db}
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+            - POSTGRES_DB=${POSTGRES_DB}
             - PGDATA=/var/lib/postgresql/data/pgdata
         volumes:
-            - ${PWD}/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
+            - ${PWD}/postgres/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
             - spring-todo-postgres:/var/lib/postgresql/data
         ports:
-            - 5432:5432
+            - ${POSTGRES_PORT}:5432
+
+    spring-todo-postgres-testing:
+        container_name: "spring-todo-postgres-testing"
+        image: postgres:13.1
+        restart: unless-stopped
+        environment:
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+            - POSTGRES_DB=${POSTGRES_TEST_DB}
+            - PGDATA=/var/lib/postgresql/data/pgdata
+        volumes:
+            - ${PWD}/postgres/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
+            - spring-todo-postgres-testing:/var/lib/postgresql/data
+        ports:
+            - ${POSTGRES_TEST_PORT}:5432
 
 volumes:
     spring-todo-postgres:
+    spring-todo-postgres-testing:

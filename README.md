@@ -15,4 +15,9 @@ Start the application inside the development docker container:
 
 `cd /workspace/spring-todo`
 
-`./gradlew runBoot`
+`./gradlew bootRun`
+
+---
+
+### Open Source code usage:
+[docker-postgresql-multiple-databases](https://github.com/mrts/docker-postgresql-multiple-databases)
